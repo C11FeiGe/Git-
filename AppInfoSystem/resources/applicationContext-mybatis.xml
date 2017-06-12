@@ -13,7 +13,6 @@
             http://www.springframework.org/schema/context/spring-context.xsd">  
             
     <!-- 添加注解支持 -->
-    <!-- <context:component-scan base-package="cn.smbms.dao"></context:component-scan> -->
     <context:component-scan base-package="cn.appsys.service"></context:component-scan>
    
    <!-- 加载配置文件 -->
