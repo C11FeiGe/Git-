@@ -6,7 +6,7 @@
 
 	<!-- 根据用户编号查询用户信息 -->
 	<select id="getDevByDevCode"  resultType="dev_user">
-		SELECT 	id,devCode,devName,devPassword,devEmail,devInfo,createdBy,creationDate,modifyBy,modifyDate,
+		SELECT 	id,devCode,devName,devPassword,devEmail,devInfo,createdBy,creationDate,modifyBy,modifyDate
 		FROM dev_user 
  		<trim prefix="where" prefixOverrides="and|or">
  			<if test="devCode != null and devCode !='' ">
