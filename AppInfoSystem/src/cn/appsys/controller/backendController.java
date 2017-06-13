@@ -20,6 +20,14 @@ public class backendController {
 	@Autowired
 	backend_userService backend_userserivce;
 	
+	
+	//开始的页面
+	@RequestMapping(value="/developerbackendlogin.html", method=RequestMethod.GET)
+	public String start(){
+		return "backendlogin";
+	}
+	
+	
 	@RequestMapping(value="/login.html", method=RequestMethod.GET)
 	public String login(){	
 		return "backendlogin";

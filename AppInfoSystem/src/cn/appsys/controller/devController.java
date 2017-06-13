@@ -28,12 +28,12 @@ public class devController {
 	}
 	
 	//开始的页面
-	@RequestMapping(value="/developerbackendlogin.html", method=RequestMethod.GET)
+	@RequestMapping(value="/developerlogin.html", method=RequestMethod.GET)
 	public String start(){
-		return "backendlogin";
+		return "devlogin";
 	}
 	
-	
+
 	//登陆处理页面
 	@RequestMapping(value="/dologin.html", method=RequestMethod.POST)
 	public String login(@Param("devCode")String devCode, @Param("devPassword")String devPassword,HttpServletRequest request,HttpSession session){
