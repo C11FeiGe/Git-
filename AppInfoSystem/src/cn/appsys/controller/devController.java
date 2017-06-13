@@ -13,7 +13,7 @@ import cn.appsys.pojo.dev_user;
 import cn.appsys.service.dev_userService;
 import cn.appsys.tools.Constants;
 
-@RequestMapping("/dev")
+@RequestMapping("/developer")
 @Controller
 public class devController {
 

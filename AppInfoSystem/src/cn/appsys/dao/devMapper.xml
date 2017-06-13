@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.appsys.dao.backendMapper">
+<mapper namespace="cn.appsys.dao.devMapper">
 
 	<!-- 根据用户编号查询用户信息 -->
 	<select id="getDevByDevCode"  resultType="dev_user">
