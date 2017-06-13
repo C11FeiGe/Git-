@@ -16,14 +16,25 @@ import cn.appsys.tools.Constants;
 @RequestMapping("/dev")
 @Controller
 public class devController {
+	
+	
 
 	@Autowired
 	dev_userService dev_userservice;
-	
+	//登陆跳转
 	@RequestMapping(value="/login.html", method=RequestMethod.GET)
 	public String login(){
 		return "devlogin";
 	}
+	
+	//开始的页面
+	@RequestMapping(value="/developerbackendlogin.html", method=RequestMethod.GET)
+	public String start(){
+		return "backendlogin";
+	}
+	
+	
+	//登陆处理页面
 	@RequestMapping(value="/dologin.html", method=RequestMethod.POST)
 	public String login(@Param("devCode")String devCode, @Param("devPassword")String devPassword,HttpServletRequest request,HttpSession session){
 			
