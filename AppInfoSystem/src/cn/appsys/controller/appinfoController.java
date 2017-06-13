@@ -19,7 +19,7 @@ import cn.appsys.pojo.data_dictionary;
 import cn.appsys.service.appinfoService;
 import cn.appsys.service.categoryService;
 import cn.appsys.service.data_dictService;
-
+//app列表页面
 @RequestMapping(value = "/developer")
 @Controller
 public class appinfoController {
@@ -90,6 +90,8 @@ public class appinfoController {
 
 	}
 
+	
+	
 	// 二级分类
 	@RequestMapping(value = "/categoryleve")
 	@ResponseBody

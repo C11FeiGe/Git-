@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cn.appsys.pojo.backend_user;
 import cn.appsys.service.backend_userService;
 import cn.appsys.tools.Constants;
-
+//后台管理
 @RequestMapping("/backend")
 @Controller
 public class backendController {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cn.appsys.pojo.dev_user;
 import cn.appsys.service.dev_userService;
 import cn.appsys.tools.Constants;
-
+//开发者
 @RequestMapping("/developer")
 @Controller
 public class devController {
@@ -32,6 +32,7 @@ public class devController {
 	public String start(){
 		return "devlogin";
 	}
+	
 	
 
 	//登陆处理页面
