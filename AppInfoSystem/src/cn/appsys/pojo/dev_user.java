@@ -7,7 +7,7 @@ public class dev_user {
 	private Integer id ;//id
 	private String devCode;//开发者帐号
 	private String devName;//开发者名称
-	private String devPassword;//开发者名称
+	private String devPassword;//开发者密码
 	private String devEmail;//开发者电子邮箱
 	private String devInfo;//开发者简介
 	private Integer createdBy;//创建者（来源于backend_user用户表的用户id）

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.appsys.dao.backendMapper">
+
+	<!-- 根据用户编号查询用户信息 -->
+	<select id="getBackendByUserCode"  resultType="backend_user">
+		SELECT 	id,userCode,userName,userType,createdBy,creationDate,modifyBy,modifyDate, 
+		userPassword
+		FROM backend_user 
+ 		<trim prefix="where" prefixOverrides="and|or">
+ 			<if test="userCode != null and userCode !='' ">
+ 				and userCode like concat('%',#{userCode},'%') 
+ 			</if>
+ 		</trim>
+	</select>
+
+</mapper>

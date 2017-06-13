@@ -1,0 +1,40 @@
+package cn.appsys.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import cn.appsys.pojo.dev_user;
+import cn.appsys.service.dev_userService;
+import cn.appsys.tools.Constants;
+
+@RequestMapping("/dev")
+@Controller
+public class devController {
+
+	@Autowired
+	dev_userService dev_userservice;
+	
+	@RequestMapping(value="/login.html", method=RequestMethod.GET)
+	public String login(){
+		return "devlogin";
+	}
+	@RequestMapping(value="/dologin.html", method=RequestMethod.POST)
+	public String login(@Param("devCode")String devCode, @Param("devPassword")String devPassword,HttpServletRequest request,HttpSession session){
+			
+		dev_user devuser=dev_userservice.login(devCode, devPassword);
+		if(devuser == null){
+			request.setAttribute("error", "用户名或密码错误！");
+			return "devlogin";
+		}else{
+			//登录成功 			
+			session.setAttribute(Constants.DEVUSER_SESSION, devuser);
+			return "developer/main";
+		}
+	}
+}
