@@ -19,8 +19,7 @@ public class backendController {
 
 	@Autowired
 	backend_userService backend_userserivce;
-	
-	
+		
 	//开始的页面
 	@RequestMapping(value="/developerbackendlogin.html", method=RequestMethod.GET)
 	public String start(){
@@ -32,6 +31,7 @@ public class backendController {
 	public String login(){	
 		return "backendlogin";
 	}
+	//登录处理页面
 	@RequestMapping(value="/dologin.html", method=RequestMethod.POST)
 	public String login(@Param("userCode")String userCode, @Param("userPassword")String userPassword,HttpServletRequest request,HttpSession session){
 			
@@ -46,10 +46,11 @@ public class backendController {
 		}
 	}
 	
+	//注销
 	@RequestMapping(value="/logout.html")
 	public String logout(HttpSession session){
 		session.invalidate(); //清除Session
-		return "backendlogin";
+		return "zhuye";
 	}
 	
 }
