@@ -13,7 +13,17 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
        	
      <context:component-scan base-package="cn.appsys.controller"></context:component-scan>  	
-      <mvc:annotation-driven></mvc:annotation-driven>
+      <mvc:annotation-driven>
+      <mvc:message-converters>
+	 		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	 			<property name="supportedMediaTypes">
+	 				<list>
+	 					<value>application/json;charset=UTF-8</value>
+	 				</list>
+	 			</property>
+	 		</bean> 	 		
+		</mvc:message-converters>
+      </mvc:annotation-driven>
        	  
      <!-- 
      	显示静态资源 
