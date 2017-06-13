@@ -10,10 +10,12 @@ import cn.appsys.pojo.app_info;
 @Service("AppinfoService")
 public class appinfoServiceImpl implements appinfoService{
 	@Autowired
-	appinfodao appinfo;
+	appinfodao appinfodao;
+
 	@Override
-	public List<app_info> getappinfo() {
-		return appinfo.getappinfo();
+	public List<app_info> getappinfo(app_info appinfo) {
+		// TODO Auto-generated method stub
+		return appinfodao.getappinfo(appinfo);
 	}
 
 }

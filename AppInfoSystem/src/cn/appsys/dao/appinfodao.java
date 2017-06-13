@@ -5,6 +5,6 @@ import java.util.List;
 import cn.appsys.pojo.app_info;
 
 public interface appinfodao {
-	public List<app_info> getappinfo();
+	public List<app_info> getappinfo(app_info appinfo);
 
 }

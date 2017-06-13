@@ -1,12 +1,9 @@
 package cn.appsys.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -33,11 +30,42 @@ public class appinfoController {
 	 * @Autowired appinfoService appservice;
 	 */
 
+	//查询列表
 	@RequestMapping(value = "/appinfolist.html")
-	public String getinfo(HttpServletRequest request) {
+	public String getinfo(@RequestParam(required=false) String querySoftwareName,
+			@RequestParam(required=false) String queryStatus,
+			@RequestParam(required=false) String queryFlatformId,
+			@RequestParam(required=false) String queryCategoryLevel1,
+			@RequestParam(required=false) String queryCategoryLevel2,
+			@RequestParam(required=false) String queryCategoryLevel3, HttpServletRequest request) {
 		appinfoService appservice = (appinfoService) context
 				.getBean("AppinfoService");
-		List<app_info> lists = appservice.getappinfo();
+		
+		if(queryStatus==null || queryStatus.equals("")){
+			queryStatus="0";
+		}
+		if(queryFlatformId==null||queryFlatformId.equals("")){
+			queryFlatformId="0";
+		}
+		if(queryCategoryLevel1==null ||queryCategoryLevel1.equals("")){
+			queryCategoryLevel1="0";
+		}
+		if(queryCategoryLevel2==null ||queryCategoryLevel2.equals("")){
+			queryCategoryLevel2="0";
+		}
+		if(queryCategoryLevel3==null || queryCategoryLevel3.equals("")){
+			queryCategoryLevel3="0";
+		}
+		app_info appinfo=new app_info();
+		appinfo.setSoftwareName(querySoftwareName);
+		appinfo.setSTATUS(Integer.parseInt(queryStatus));
+		
+		appinfo.setFlatformId(Integer.parseInt(queryFlatformId));
+		appinfo.setCategoryLevel1(Integer.parseInt(queryCategoryLevel1));
+		appinfo.setCategoryLevel2(Integer.parseInt(queryCategoryLevel2));
+		appinfo.setCategoryLevel3(Integer.parseInt(queryCategoryLevel3));
+		
+		List<app_info> lists = appservice.getappinfo(appinfo);
 		request.setAttribute("appInfoList", lists);
 
 		// APP状态
@@ -65,7 +93,7 @@ public class appinfoController {
 	// 二级分类
 	@RequestMapping(value = "/categoryleve")
 	@ResponseBody
-	public Object geterji(@RequestParam("pid") Integer pid) {
+	public Object geterji(@RequestParam Integer pid) {
 		categoryService categoryservic = (categoryService) context
 				.getBean("categoryservice");
 		// 二级分类
@@ -89,5 +117,12 @@ public class appinfoController {
 		return JSONArray.toJSONString(objs3);
 
 	}
-
+	
+	//增加app基础信息
+	@RequestMapping(value="/appinfoadd.html")
+	public String addappinfo(){
+		
+		return "/developer/appinfoadd";
+		
+	}
 }

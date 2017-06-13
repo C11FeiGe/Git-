@@ -34,9 +34,27 @@ public class app_info {
 	private String categoryLevel2Name;//二级分类
 	private String categoryLevel3Name;//三级分类
 	private String flatformName;//所属平台
+	private String versionNo;
+	private String status;
 	
 	
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getVersionNo() {
+		return versionNo;
+	}
+
+	public void setVersionNo(String versionNo) {
+		this.versionNo = versionNo;
+	}
+
 	public String getStatusName() {
 		return statusName;
 	}
