@@ -5,7 +5,7 @@ import java.util.Date;
 public class data_dictionary {
 
 	
-	private Integer id ;//id
+	private Integer id ;//id主键
 	private String typeCode;//类型编码
 	private String typeName;//类型名称
 	private Integer valueId;//类型值ID
