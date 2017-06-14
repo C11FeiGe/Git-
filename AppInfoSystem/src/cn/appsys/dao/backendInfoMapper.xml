@@ -33,6 +33,7 @@
 		<if test="categoryLevel3 !=null and categoryLevel3 !=''">
 				and a3.id=#{categoryLevel3} 
 		</if>
+		limit #{currentPageNo},#{pageSize}
 	</select>
 	
 	<select id="getCount" resultType="int">
