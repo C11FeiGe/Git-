@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   </head>
   
-  <body>
+  <body style="text-align: center; margin:150px; padding-top:90px; border:solid 1px blue ; border-width:10px;">
     <h1>APP信息管理平台</h1>
     <h3><a href="backend/developerbackendlogin.html">后台管理系统入口</a></h3>
     <h3><a href="developer/developerlogin.html">开发者平台入口</a></h3>

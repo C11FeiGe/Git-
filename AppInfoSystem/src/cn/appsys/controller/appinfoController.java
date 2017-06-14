@@ -23,6 +23,7 @@ import cn.appsys.service.appinfoService;
 import cn.appsys.service.categoryService;
 import cn.appsys.service.data_dictService;
 import cn.appsys.tools.Constants;
+
 //app列表页面
 @RequestMapping(value = "/developer")
 @Controller
@@ -30,84 +31,119 @@ public class appinfoController {
 	ApplicationContext context = new ClassPathXmlApplicationContext(
 			"applicationContext-mybatis.xml");
 
-	/*
-	 * @Autowired appinfoService appservice;
-	 */
+	//增加的平台加载
+	@RequestMapping(value = "/appAddinfo")
+	@ResponseBody
+	public Object addyiji() {
+		data_dictService dictservice = (data_dictService) context
+				.getBean("dictService");
+		// 所属平台
+		List<data_dictionary> listsss = dictservice.getdatalist("所属平台");
 
-	//查询列表
+		// 一级分类
+		categoryService categoryservic = (categoryService) context
+				.getBean("categoryservice");
+		List<app_category> objs1 = categoryservic.getjibie(0);
+		
+		return  JSONArray.toJSONString(listsss);
+	}
+	
+	@RequestMapping(value = "/categorylevell")
+	@ResponseBody
+	public Object addinfojiazai() {
+		// 一级分类
+		categoryService categoryservic = (categoryService) context
+				.getBean("categoryservice");
+		List<app_category> objs1 = categoryservic.getjibie(0);
+		
+		return  JSONArray.toJSONString(objs1);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	// 查询列表
 	@RequestMapping(value = "/appinfolist.html")
-	public String getinfo(@RequestParam(required=false) String querySoftwareName,
-			@RequestParam(required=false) String queryStatus,
-			@RequestParam(required=false) String queryFlatformId,
-			@RequestParam(required=false) String queryCategoryLevel1,
-			@RequestParam(required=false) String queryCategoryLevel2,
-			@RequestParam(required=false) String queryCategoryLevel3, 
-			@RequestParam(required=false) String pageIndex,
+	public String getinfo(
+			@RequestParam(required = false) String querySoftwareName,
+			@RequestParam(required = false) String queryStatus,
+			@RequestParam(required = false) String queryFlatformId,
+			@RequestParam(required = false) String queryCategoryLevel1,
+			@RequestParam(required = false) String queryCategoryLevel2,
+			@RequestParam(required = false) String queryCategoryLevel3,
+			@RequestParam(required = false) String pageIndex,
 			HttpServletRequest request) {
 		appinfoService appservice = (appinfoService) context
 				.getBean("AppinfoService");
-		
-		
-		
-		if(queryStatus==null || queryStatus.equals("")){
-			queryStatus="0";
+
+		if (queryStatus == null || queryStatus.equals("")) {
+			queryStatus = "0";
 		}
-		if(queryFlatformId==null||queryFlatformId.equals("")){
-			queryFlatformId="0";
+		if (queryFlatformId == null || queryFlatformId.equals("")) {
+			queryFlatformId = "0";
 		}
-		if(queryCategoryLevel1==null ||queryCategoryLevel1.equals("")){
-			queryCategoryLevel1="0";
+		if (queryCategoryLevel1 == null || queryCategoryLevel1.equals("")) {
+			queryCategoryLevel1 = "0";
 		}
-		if(queryCategoryLevel2==null ||queryCategoryLevel2.equals("")){
-			queryCategoryLevel2="0";
+		if (queryCategoryLevel2 == null || queryCategoryLevel2.equals("")) {
+			queryCategoryLevel2 = "0";
 		}
-		if(queryCategoryLevel3==null || queryCategoryLevel3.equals("")){
-			queryCategoryLevel3="0";
+		if (queryCategoryLevel3 == null || queryCategoryLevel3.equals("")) {
+			queryCategoryLevel3 = "0";
 		}
-		if(pageIndex==null||pageIndex.equals("")){
-			pageIndex="1";
+		if (pageIndex == null || pageIndex.equals("")) {
+			pageIndex = "1";
 		}
-		app_info appinfo=new app_info();
+		app_info appinfo = new app_info();
 		appinfo.setSoftwareName(querySoftwareName);
 		appinfo.setSTATUS(Integer.parseInt(queryStatus));
-		
+
 		appinfo.setFlatformId(Integer.parseInt(queryFlatformId));
 		appinfo.setCategoryLevel1(Integer.parseInt(queryCategoryLevel1));
 		appinfo.setCategoryLevel2(Integer.parseInt(queryCategoryLevel2));
 		appinfo.setCategoryLevel3(Integer.parseInt(queryCategoryLevel3));
-		
-		
-		int totalCount=appservice.getCount(appinfo);
-		int currentPageNo=Integer.parseInt(pageIndex);
-		int totalPageCount=totalCount%Constants.PAGE_SIZE==0?totalCount/Constants.PAGE_SIZE:totalCount/Constants.PAGE_SIZE+1;
-		
-		pages pages=new pages();
+
+		int totalCount = appservice.getCount(appinfo);
+		int currentPageNo = Integer.parseInt(pageIndex);
+		int totalPageCount = totalCount % Constants.PAGE_SIZE == 0 ? totalCount
+				/ Constants.PAGE_SIZE : totalCount / Constants.PAGE_SIZE + 1;
+
+		pages pages = new pages();
 		pages.setTotalCount(totalCount);
 		pages.setCurrentPageNo(currentPageNo);
 		pages.setPageSize(Constants.PAGE_SIZE);
 		pages.setTotalPageCount(totalPageCount);
-		
+
 		request.setAttribute("pages", pages);
-		
-		
-		Map map=new HashMap();
-		map.put("appinfo",appinfo);
-		map.put("currentPageNo",(Integer.parseInt(pageIndex)-1)*Constants.PAGE_SIZE);
+
+		Map map = new HashMap();
+		map.put("appinfo", appinfo);
+		map.put("currentPageNo", (Integer.parseInt(pageIndex) - 1)
+				* Constants.PAGE_SIZE);
 		map.put("pageSize", Constants.PAGE_SIZE);
-		
+
 		List<app_info> lists = appservice.getappinfo(map);
-		System.out.println("*********"+lists.get(0).getSoftwareName());
 		request.setAttribute("appInfoList", lists);
-		
-		
-		
+
 		// APP状态
 		data_dictService dictservice = (data_dictService) context
 				.getBean("dictService");
 		List<data_dictionary> listss = dictservice.getdatalist("APP状态");
 
 		request.setAttribute("statusList", listss);
-		
+
 		request.setAttribute("querySoftwareName", querySoftwareName);
 		request.setAttribute("queryStatus", queryStatus);
 		request.setAttribute("queryFlatformId", queryFlatformId);
@@ -130,8 +166,6 @@ public class appinfoController {
 
 	}
 
-	
-	
 	// 二级分类
 	@RequestMapping(value = "/categoryleve")
 	@ResponseBody
@@ -158,12 +192,12 @@ public class appinfoController {
 		return JSONArray.toJSONString(objs3);
 
 	}
-	
-	//增加app基础信息
-	@RequestMapping(value="/appinfoadd.html")
-	public String addappinfo(){
-		
+
+	// 增加app基础信息
+	@RequestMapping(value = "/appinfoadd.html")
+	public String addappinfo() {
+
 		return "/developer/appinfoadd";
-		
+
 	}
 }
