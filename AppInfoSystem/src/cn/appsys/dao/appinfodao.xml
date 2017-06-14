@@ -3,35 +3,74 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.appsys.dao.appinfodao">
-		<select id="getappinfo"  parameterType="app_info" resultType="app_info">
-	SELECT 	app_info.id,softwareName,APKName,softwareSize,b1.valueName as flatformName ,categoryLevel1,a1.categoryName as categoryLevel1Name,categoryLevel2,a2.categoryName as categoryLevel2Name,categoryLevel3,a3.categoryName as categoryLevel3Name,status,b2.valueName as statusName,downloads,versionNo FROM app_info 
-			INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
-			INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
-			
-			INNER JOIN app_category AS a1 ON a1.id =app_info.categoryLevel1
-			INNER JOIN app_category AS a2 ON a2.id =app_info.categoryLevel2
-			INNER JOIN app_category AS a3 ON a3.id =app_info.categoryLevel3
-			
-			INNER JOIN app_version ON app_version.id=app_info.versionId
-			WHERE b1.typeName='所属平台' AND b2.typeName='APP状态'
-	
+	<select id="getappinfo" parameterType="map" resultType="app_info">
+		SELECT app_info.id,softwareName,APKName,softwareSize,b1.valueName as
+		flatformName ,categoryLevel1,a1.categoryName as
+		categoryLevel1Name,categoryLevel2,a2.categoryName as
+		categoryLevel2Name,categoryLevel3,a3.categoryName as
+		categoryLevel3Name,status,b2.valueName as
+		statusName,downloads,versionNo FROM app_info
+		INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
+		INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
+
+		INNER JOIN app_category AS a1 ON a1.id =app_info.categoryLevel1
+		INNER JOIN app_category AS a2 ON a2.id =app_info.categoryLevel2
+		INNER JOIN app_category AS a3 ON a3.id =app_info.categoryLevel3
+
+		INNER JOIN app_version ON app_version.id=app_info.versionId
+		WHERE b1.typeName='所属平台' AND b2.typeName='APP状态'
+
+		<if test="appinfo.softwareName!=null and appinfo.softwareName!='' ">
+			and softwareName like concat('%',#{appinfo.softwareName},'%')
+		</if>
+		<if test="appinfo.STATUS!=null and appinfo.STATUS!=''"><!-- APP状态 -->
+			and b2.valueId=#{appinfo.STATUS}
+		</if>
+		<if test="appinfo.flatformId!=null and appinfo.flatformId!=''">
+			and b1.valueId=#{appinfo.flatformId}
+		</if>
+		<if test="appinfo.categoryLevel1 !=null and appinfo.categoryLevel1 !=''">
+			and a1.id=#{appinfo.categoryLevel1}
+		</if>
+		<if test="appinfo.categoryLevel2 !=null and appinfo.categoryLevel2 !=''">
+			and a2.id=#{appinfo.categoryLevel2}
+		</if>
+		<if test="appinfo.categoryLevel3 !=null and appinfo.categoryLevel3 !=''">
+			and a3.id=#{appinfo.categoryLevel3}
+		</if>
+		limit #{currentPageNo},#{pageSize}
+	</select>
+
+
+	<select id="getCount" resultType="int">
+		select count(1) as count from app_info
+		INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
+		INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
+
+		INNER JOIN app_category AS a1 ON a1.id =app_info.categoryLevel1
+		INNER JOIN app_category AS a2 ON a2.id =app_info.categoryLevel2
+		INNER JOIN app_category AS a3 ON a3.id =app_info.categoryLevel3
+
+		INNER JOIN app_version ON app_version.id=app_info.versionId
+		WHERE b1.typeName='所属平台' AND b2.typeName='APP状态'
+
 		<if test="softwareName!=null and softwareName!='' ">
-				and softwareName like concat('%',#{softwareName},'%')
+			and softwareName like concat('%',#{softwareName},'%')
 		</if>
 		<if test="STATUS!=null and STATUS!=''"><!-- APP状态 -->
-				and b2.valueId=#{STATUS}
+			and b2.valueId=#{STATUS}
 		</if>
 		<if test="flatformId!=null and flatformId!=''">
-				 and  b1.valueId=#{flatformId}
+			and b1.valueId=#{flatformId}
 		</if>
 		<if test="categoryLevel1 !=null and categoryLevel1 !=''">
-				and a1.id=#{categoryLevel1}
+			and a1.id=#{categoryLevel1}
 		</if>
 		<if test="categoryLevel2 !=null and categoryLevel2 !=''">
-				and a2.id=#{categoryLevel2}
+			and a2.id=#{categoryLevel2}
 		</if>
 		<if test="categoryLevel3 !=null and categoryLevel3 !=''">
-				and a3.id=#{categoryLevel3}
+			and a3.id=#{categoryLevel3}
 		</if>
 	</select>
 

@@ -1,6 +1,8 @@
 package cn.appsys.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +18,11 @@ import com.alibaba.fastjson.JSONArray;
 import cn.appsys.pojo.app_category;
 import cn.appsys.pojo.app_info;
 import cn.appsys.pojo.data_dictionary;
+import cn.appsys.pojo.pages;
 import cn.appsys.service.appinfoService;
 import cn.appsys.service.categoryService;
 import cn.appsys.service.data_dictService;
+import cn.appsys.tools.Constants;
 //app列表页面
 @RequestMapping(value = "/developer")
 @Controller
@@ -37,9 +41,13 @@ public class appinfoController {
 			@RequestParam(required=false) String queryFlatformId,
 			@RequestParam(required=false) String queryCategoryLevel1,
 			@RequestParam(required=false) String queryCategoryLevel2,
-			@RequestParam(required=false) String queryCategoryLevel3, HttpServletRequest request) {
+			@RequestParam(required=false) String queryCategoryLevel3, 
+			@RequestParam(required=false) String pageIndex,
+			HttpServletRequest request) {
 		appinfoService appservice = (appinfoService) context
 				.getBean("AppinfoService");
+		
+		
 		
 		if(queryStatus==null || queryStatus.equals("")){
 			queryStatus="0";
@@ -56,6 +64,9 @@ public class appinfoController {
 		if(queryCategoryLevel3==null || queryCategoryLevel3.equals("")){
 			queryCategoryLevel3="0";
 		}
+		if(pageIndex==null||pageIndex.equals("")){
+			pageIndex="1";
+		}
 		app_info appinfo=new app_info();
 		appinfo.setSoftwareName(querySoftwareName);
 		appinfo.setSTATUS(Integer.parseInt(queryStatus));
@@ -65,15 +76,44 @@ public class appinfoController {
 		appinfo.setCategoryLevel2(Integer.parseInt(queryCategoryLevel2));
 		appinfo.setCategoryLevel3(Integer.parseInt(queryCategoryLevel3));
 		
-		List<app_info> lists = appservice.getappinfo(appinfo);
+		
+		int totalCount=appservice.getCount(appinfo);
+		int currentPageNo=Integer.parseInt(pageIndex);
+		int totalPageCount=totalCount%Constants.PAGE_SIZE==0?totalCount/Constants.PAGE_SIZE:totalCount/Constants.PAGE_SIZE+1;
+		
+		pages pages=new pages();
+		pages.setTotalCount(totalCount);
+		pages.setCurrentPageNo(currentPageNo);
+		pages.setPageSize(Constants.PAGE_SIZE);
+		pages.setTotalPageCount(totalPageCount);
+		
+		request.setAttribute("pages", pages);
+		
+		
+		Map map=new HashMap();
+		map.put("appinfo",appinfo);
+		map.put("currentPageNo",(Integer.parseInt(pageIndex)-1)*Constants.PAGE_SIZE);
+		map.put("pageSize", Constants.PAGE_SIZE);
+		
+		List<app_info> lists = appservice.getappinfo(map);
+		System.out.println("*********"+lists.get(0).getSoftwareName());
 		request.setAttribute("appInfoList", lists);
-
+		
+		
+		
 		// APP状态
 		data_dictService dictservice = (data_dictService) context
 				.getBean("dictService");
 		List<data_dictionary> listss = dictservice.getdatalist("APP状态");
 
 		request.setAttribute("statusList", listss);
+		
+		request.setAttribute("querySoftwareName", querySoftwareName);
+		request.setAttribute("queryStatus", queryStatus);
+		request.setAttribute("queryFlatformId", queryFlatformId);
+		request.setAttribute("queryCategoryLevel1", queryCategoryLevel1);
+		request.setAttribute("queryCategoryLevel2", queryCategoryLevel2);
+		request.setAttribute("queryCategoryLevel3", queryCategoryLevel3);
 
 		// 所属平台
 		List<data_dictionary> listsss = dictservice.getdatalist("所属平台");
@@ -100,7 +140,6 @@ public class appinfoController {
 				.getBean("categoryservice");
 		// 二级分类
 		List<app_category> objs2 = categoryservic.getjibie(pid);
-		System.out.println(JSONArray.toJSONString(objs2));
 		return JSONArray.toJSONString(objs2);
 
 	}

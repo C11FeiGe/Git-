@@ -1,6 +1,7 @@
 package cn.appsys.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,17 @@ public class appinfoServiceImpl implements appinfoService{
 	appinfodao appinfodao;
 
 	@Override
-	public List<app_info> getappinfo(app_info appinfo) {
-		// TODO Auto-generated method stub
-		return appinfodao.getappinfo(appinfo);
+	public List<app_info> getappinfo(Map map) {
+		return appinfodao.getappinfo(map);
 	}
+
+
+	@Override
+	public int getCount(app_info appinfo) {
+		return appinfodao.getCount(appinfo);
+	}
+
+
+
 
 }

@@ -32,7 +32,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12">APP状态</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<select name="queryStatus" class="form-control">
+									<select name="queryStatus" class="form-control" value="${queryStatus }">
 										<c:if test="${statusList != null }">
 											<option value="">--请选择--</option>
 											<c:forEach var="dataDictionary" items="${statusList}">
@@ -49,7 +49,7 @@
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12">所属平台</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<select name="queryFlatformId" class="form-control">
+									<select name="queryFlatformId" class="form-control" value="${queryFlatformId }">
 										<c:if test="${flatFormList != null }">
 											<option value="">--请选择--</option>
 											<c:forEach var="dataDictionary" items="${flatFormList}">
@@ -67,7 +67,7 @@
 								<label class="control-label col-md-3 col-sm-3 col-xs-12">一级分类</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<select id="queryCategoryLevel1" name="queryCategoryLevel1"
-										class="form-control">
+										class="form-control" value="${queryCategoryLevel1 }">
 										<c:if test="${categoryLevel1List != null }">
 											<option value="">--请选择--</option>
 											<c:forEach var="appCategory" items="${categoryLevel1List}">
@@ -86,7 +86,7 @@
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<input type="hidden" name="categorylevel2list"
 										id="categorylevel2list" /> <select name="queryCategoryLevel2"
-										id="queryCategoryLevel2" class="form-control">
+										id="queryCategoryLevel2" class="form-control" value="${queryCategoryLevel2 }" >
 										<c:if test="${categoryLevel2List != null }">
 											<option value="">--请选择--</option>
 											<c:forEach var="appCategory" items="${categoryLevel2List}">
@@ -104,7 +104,7 @@
 								<label class="control-label col-md-3 col-sm-3 col-xs-12">三级分类</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<select name="queryCategoryLevel3" id="queryCategoryLevel3"
-										class="form-control">
+										class="form-control" value="${queryCategoryLevel3 }" >
 										<c:if test="${categoryLevel3List != null }">
 											<option value="">--请选择--</option>
 											<c:forEach var="appCategory" items="${categoryLevel3List}">
