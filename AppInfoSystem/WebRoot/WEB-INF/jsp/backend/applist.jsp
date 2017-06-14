@@ -8,13 +8,13 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>
-					APP 审核列表 <i class="fa fa-user"></i><small>${userSession.userName}
+					APP 审核列表 <i class="fa fa-user"></i><small>${BACKENDUSER_SESSION.userName }
 						- 您可以通过搜索或者其他的筛选项对APP的信息进行审核操作。^_^</small>
 				</h2>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-				<form method="post" action="list">
+				<form method="post" action="/AppInfoSystem/backend/applist.html">
 					<input type="hidden" name="pageIndex" value="1" />
 			    <ul>
 					<li>
@@ -109,7 +109,7 @@
 							cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
 							<thead>
 								<tr role="row">
-									<th class="sorting_asc" tabindex="0"
+									<th class="sorting_asc" tabindex ="0"
 										aria-controls="datatable-responsive" rowspan="1" colspan="1"
 										style="width: 70px;" aria-label="First name: activate to sort column descending"
 										aria-sort="ascending">软件名称</th>
