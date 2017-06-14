@@ -114,12 +114,12 @@ public class backendinfoController {
 		request.setAttribute("pages", pages);
 
 		Map map = new HashMap();
-		map.put("appinfo", appinfo);
-		map.put("currentPageNo", (Integer.parseInt(pageIndex) - 1)
-				* Constants.PAGE_SIZE);
+		map.put("appinfos", appinfo);
+		map.put("currentPageNo", (Integer.parseInt(pageIndex) - 1)* Constants.PAGE_SIZE);
 		map.put("pageSize", Constants.PAGE_SIZE);
 
 		List<app_info> lists = backendservice.getappuserinfo(map);
+		System.out.println(lists.get(0).getSoftwareName());
 		request.setAttribute("appInfoList", lists);
 
 		// APP状态

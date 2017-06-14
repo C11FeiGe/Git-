@@ -3,7 +3,7 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.appsys.dao.backendInfoMapper">
-		<select id="getappuserinfo"  parameterType="app_info" resultType="app_info">
+		<select id="getappuserinfo"  parameterType="map" resultType="app_info">
 	SELECT 	app_info.id,softwareName,APKName,softwareSize,b1.valueName as flatformName ,categoryLevel1,a1.categoryName as categoryLevel1Name,categoryLevel2,a2.categoryName as categoryLevel2Name,categoryLevel3,a3.categoryName as categoryLevel3Name,status,b2.valueName as statusName,downloads,versionNo FROM app_info 
 			INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
 			INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
@@ -15,23 +15,23 @@
 			INNER JOIN app_version ON app_version.id=app_info.versionId
 			WHERE b1.typeName='所属平台' AND b2.typeName='APP状态'
 	
-		<if test="softwareName!=null and softwareName!='' ">
-				and softwareName like concat('%',#{softwareName},'%')
+		<if test="appinfos.softwareName!=null and appinfos.softwareName!='' ">
+				and softwareName like concat('%',#{appinfos.softwareName},'%')
 		</if>
-		<if test="STATUS!=null and STATUS!=''"><!-- APP状态 -->
-				and b2.valueId=#{STATUS}
+		<if test="appinfos.STATUS!=null and appinfos.STATUS!=''"><!-- APP状态 -->
+				and b2.valueId=#{appinfos.STATUS}
 		</if>
-		<if test="flatformId!=null and flatformId!=''">
-				 and  b1.valueId=#{flatformId}
+		<if test="appinfos.flatformId!=null and appinfos.flatformId!=''">
+				 and  b1.valueId=#{appinfos.flatformId}
 		</if>
-		<if test="categoryLevel1 !=null and categoryLevel1 !=''">
-				and a1.id=#{categoryLevel1}
+		<if test="appinfos.categoryLevel1 !=null and appinfos.categoryLevel1 !=''">
+				and a1.id=#{appinfos.categoryLevel1}
 		</if>
-		<if test="categoryLevel2 !=null and categoryLevel2 !=''">
-				and a2.id=#{categoryLevel2}
+		<if test="appinfos.categoryLevel2 !=null and appinfos.categoryLevel2 !=''">
+				and a2.id=#{appinfos.categoryLevel2}
 		</if>
-		<if test="categoryLevel3 !=null and categoryLevel3 !=''">
-				and a3.id=#{categoryLevel3} 
+		<if test="appinfos.categoryLevel3 !=null and appinfos.categoryLevel3 !=''">
+				and a3.id=#{appinfos.categoryLevel3} 
 		</if>
 		limit #{currentPageNo},#{pageSize}
 	</select>
