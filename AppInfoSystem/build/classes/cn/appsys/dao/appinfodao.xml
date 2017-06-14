@@ -70,11 +70,7 @@
 			and a2.id=#{categoryLevel2}
 		</if>
 		<if test="categoryLevel3 !=null and categoryLevel3 !=''">
-<<<<<<< HEAD
 			and a3.id=#{categoryLevel3}
-=======
-				and a3.id=#{categoryLevel3} 
->>>>>>> 540404273079ba21344b3b1ec16d77fe9f1668b5
 		</if>
 	</select>
 
