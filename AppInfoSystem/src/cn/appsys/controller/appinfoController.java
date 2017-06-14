@@ -59,21 +59,6 @@ public class appinfoController {
 		return  JSONArray.toJSONString(objs1);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	// 查询列表
 	@RequestMapping(value = "/appinfolist.html")
 	public String getinfo(
