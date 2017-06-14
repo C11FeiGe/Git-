@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.appsys.dao.appinfodao">
-		<select id="getappinfo"  parameterType="app_info" resultType="app_info">
+<mapper namespace="cn.appsys.dao.backenduser">
+		<select id="getappuserinfo"  parameterType="app_info" resultType="app_info">
 	SELECT 	app_info.id,softwareName,APKName,softwareSize,b1.valueName as flatformName ,categoryLevel1,a1.categoryName as categoryLevel1Name,categoryLevel2,a2.categoryName as categoryLevel2Name,categoryLevel3,a3.categoryName as categoryLevel3Name,status,b2.valueName as statusName,downloads,versionNo FROM app_info 
 			INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
 			INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
