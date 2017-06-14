@@ -10,18 +10,26 @@
 		categoryLevel2Name,categoryLevel3,a3.categoryName as
 		categoryLevel3Name,status,b2.valueName as
 		statusName,downloads,versionNo FROM app_info
-		INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
-		INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
+		INNER JOIN data_dictionary
+		AS b1 ON b1.valueId=app_info.flatformId
+		INNER JOIN data_dictionary AS
+		b2 ON b2.valueId=app_info.status
 
-		INNER JOIN app_category AS a1 ON a1.id =app_info.categoryLevel1
-		INNER JOIN app_category AS a2 ON a2.id =app_info.categoryLevel2
-		INNER JOIN app_category AS a3 ON a3.id =app_info.categoryLevel3
+		INNER JOIN app_category AS a1 ON a1.id
+		=app_info.categoryLevel1
+		INNER JOIN app_category AS a2 ON a2.id
+		=app_info.categoryLevel2
+		INNER JOIN app_category AS a3 ON a3.id
+		=app_info.categoryLevel3
 
-		INNER JOIN app_version ON app_version.id=app_info.versionId
-		WHERE b1.typeName='所属平台' AND b2.typeName='APP状态'
+		INNER JOIN app_version ON
+		app_version.id=app_info.versionId
+		WHERE b1.typeName='所属平台' AND
+		b2.typeName='APP状态'
 
 		<if test="appinfo.softwareName!=null and appinfo.softwareName!='' ">
-			and softwareName like concat('%',#{appinfo.softwareName},'%')
+			and softwareName like
+			concat('%',#{appinfo.softwareName},'%')
 		</if>
 		<if test="appinfo.STATUS!=null and appinfo.STATUS!=''"><!-- APP状态 -->
 			and b2.valueId=#{appinfo.STATUS}
@@ -41,18 +49,29 @@
 		limit #{currentPageNo},#{pageSize}
 	</select>
 
+	<select id="getAPKName" resultType="app_info">
+		SELECT APKName FROM app_info
+		WHERE APKName=#{APKName}
+	</select>
 
 	<select id="getCount" resultType="int">
 		select count(1) as count from app_info
-		INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
-		INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
+		INNER JOIN data_dictionary AS b1
+		ON b1.valueId=app_info.flatformId
+		INNER JOIN data_dictionary AS b2 ON
+		b2.valueId=app_info.status
 
-		INNER JOIN app_category AS a1 ON a1.id =app_info.categoryLevel1
-		INNER JOIN app_category AS a2 ON a2.id =app_info.categoryLevel2
-		INNER JOIN app_category AS a3 ON a3.id =app_info.categoryLevel3
+		INNER JOIN app_category AS a1 ON a1.id
+		=app_info.categoryLevel1
+		INNER JOIN app_category AS a2 ON a2.id
+		=app_info.categoryLevel2
+		INNER JOIN app_category AS a3 ON a3.id
+		=app_info.categoryLevel3
 
-		INNER JOIN app_version ON app_version.id=app_info.versionId
-		WHERE b1.typeName='所属平台' AND b2.typeName='APP状态'
+		INNER JOIN app_version ON
+		app_version.id=app_info.versionId
+		WHERE b1.typeName='所属平台' AND
+		b2.typeName='APP状态'
 
 		<if test="softwareName!=null and softwareName!='' ">
 			and softwareName like concat('%',#{softwareName},'%')
@@ -72,6 +91,71 @@
 		<if test="categoryLevel3 !=null and categoryLevel3 !=''">
 			and a3.id=#{categoryLevel3}
 		</if>
+	</select>
+
+	<!-- 修改 -->
+	<update id="editappinfo" parameterType="app_info">
+		UPDATE app_info 
+		<set>
+			<if test="softwareName!=null and softwareName!=''">
+				softwareName=#{softwareName},
+			</if>
+			<if test="APKName!=null and APKName!=''">
+				APKName=#{APKName},
+			</if>
+			<if test="supportROM!=null and supportROM!=''">
+				supportROM=#{supportROM},
+			</if>
+			<if test="interfaceLanguage!=null and interfaceLanguage!=''">
+				interfaceLanguage=#{interfaceLanguage},
+			</if>
+			<if test="softwareSize!=null and softwareSize!=''">
+				softwareSize=#{softwareSize},
+			</if>
+			<if test="downloads!=null and downloads!=''">
+				downloads=#{downloads},
+			</if>
+			<if test="flatformId!=null and flatformId!=''">
+				flatformId=#{flatformId},
+			</if>
+			<if test="categoryLevel1!=null and categoryLevel1!=''">
+				categoryLevel1=#{categoryLevel1},
+			</if>
+			<if test="categoryLevel2!=null and categoryLevel2!=''">
+				categoryLevel2=#{categoryLevel2},
+			</if>
+			<if test="categoryLevel3!=null and categoryLevel3!=''">
+				categoryLevel3=#{categoryLevel3},
+			</if>
+			<if test="STATUS!=null and STATUS!=''">
+				STATUS=#{STATUS},
+			</if>
+			<if test="appInfo!=null and appInfo!=''">
+				appInfo=#{appInfo},
+			</if>
+			<if test="logoPicPath!=null and logoPicPath!=''">
+				logoPicPath=#{logoPicPath},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+
+
+	<!-- 增加 -->
+	<insert id="addinfolist" parameterType="app_info">
+		INSERT INTO
+		app_info(softwareName,APKName,supportROM,interfaceLanguage,softwareSize,downloads,flatformId,categoryLevel1,categoryLevel2,categoryLevel3,STATUS,appInfo,logoLocPath,logoPicPath,versionId)
+		VALUES ( #{softwareName},
+		#{APKName},#{supportROM},#{interfaceLanguage},
+		#{softwareSize},#{downloads},#{flatformId},#{categoryLevel1},
+		#{categoryLevel2},#{categoryLevel3},#{STATUS},#{appInfo},#{logoPicPath},#{logoLocPath},#{versionId})
+	</insert>
+
+	<!-- 显示修改之前的内容 -->
+	<select id="selectedit" resultType="app_info">
+		select
+		softwareName,APKName,supportROM,interfaceLanguage,softwareSize,downloads,flatformId,categoryLevel1,categoryLevel2,categoryLevel3,STATUS,appInfo,logoLocPath,logoPicPath,versionId
+		from app_info where id=#{id}
 	</select>
 
 </mapper>
