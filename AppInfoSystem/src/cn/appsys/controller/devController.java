@@ -40,7 +40,7 @@ public class devController {
 		dev_user devuser=dev_userservice.login(devCode, devPassword);
 		if(devuser == null){
 			request.setAttribute("error", "用户名或密码错误！");
-			return "developerlogin";
+			return "devlogin";
 		}else{
 			//登录成功 			
 			session.setAttribute(Constants.DEVUSER_SESSION, devuser);
