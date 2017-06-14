@@ -20,13 +20,16 @@ import cn.appsys.pojo.app_info;
 import cn.appsys.pojo.data_dictionary;
 import cn.appsys.pojo.pages;
 import cn.appsys.service.appinfoService;
+import cn.appsys.service.backendinfoService;
 import cn.appsys.service.categoryService;
 import cn.appsys.service.data_dictService;
 import cn.appsys.tools.Constants;
-//app列表页面
-@RequestMapping(value = "/developer")
+
+@RequestMapping(value = "/applist.html")
 @Controller
-public class appinfoController {
+public class backendinfoController {
+	
+	
 	ApplicationContext context = new ClassPathXmlApplicationContext(
 			"applicationContext-mybatis.xml");
 
@@ -35,7 +38,7 @@ public class appinfoController {
 	 */
 
 	//查询列表
-	@RequestMapping(value = "/appinfolist.html")
+	@RequestMapping(value = "/applist.html")
 	public String getinfo(@RequestParam(required=false) String querySoftwareName,
 			@RequestParam(required=false) String queryStatus,
 			@RequestParam(required=false) String queryFlatformId,
@@ -44,8 +47,8 @@ public class appinfoController {
 			@RequestParam(required=false) String queryCategoryLevel3, 
 			@RequestParam(required=false) String pageIndex,
 			HttpServletRequest request) {
-		appinfoService appservice = (appinfoService) context
-				.getBean("AppinfoService");
+		backendinfoService backendservice = (backendinfoService) context
+				.getBean("BackendinfoService");
 		
 		
 		
@@ -77,7 +80,7 @@ public class appinfoController {
 		appinfo.setCategoryLevel3(Integer.parseInt(queryCategoryLevel3));
 		
 		
-		int totalCount=appservice.getCount(appinfo);
+		int totalCount=backendservice.getCount(appinfo);
 		int currentPageNo=Integer.parseInt(pageIndex);
 		int totalPageCount=totalCount%Constants.PAGE_SIZE==0?totalCount/Constants.PAGE_SIZE:totalCount/Constants.PAGE_SIZE+1;
 		
@@ -95,9 +98,9 @@ public class appinfoController {
 		map.put("currentPageNo",(Integer.parseInt(pageIndex)-1)*Constants.PAGE_SIZE);
 		map.put("pageSize", Constants.PAGE_SIZE);
 		
-		List<app_info> lists = appservice.getappinfo(map);
+		List<app_info> lists = backendservice.getappuserinfo(map);
 		System.out.println("*********"+lists.get(0).getSoftwareName());
-		request.setAttribute("appInfoList", lists);
+		request.setAttribute("appList", lists);
 		
 		
 		
@@ -126,12 +129,9 @@ public class appinfoController {
 		List<app_category> objs1 = categoryservic.getjibie(0);
 		request.setAttribute("categoryLevel1List", objs1);
 
-		return "/developer/appinfolist";
+		return "/backend/applist";
 
 	}
-
-	
-	
 	// 二级分类
 	@RequestMapping(value = "/categoryleve")
 	@ResponseBody
@@ -158,11 +158,4 @@ public class appinfoController {
 
 	}
 	
-	//增加app基础信息
-	@RequestMapping(value="/appinfoadd.html")
-	public String addappinfo(){
-		
-		return "/developer/appinfoadd";
-		
-	}
 }
