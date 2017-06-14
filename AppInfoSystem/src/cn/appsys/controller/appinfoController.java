@@ -206,7 +206,10 @@ public class appinfoController {
 		}
 
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> b4650d7f1aea851ea54be0c4b412f3e7eb549cf1
 
 	// 判断是否存在
 	@RequestMapping(value = "/apkexist")
@@ -243,7 +246,10 @@ public class appinfoController {
 	 * @return
 	 */
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> b4650d7f1aea851ea54be0c4b412f3e7eb549cf1
 	// 查询列表
 	@RequestMapping(value = "/appinfolist.html")
 	public String getinfo(
