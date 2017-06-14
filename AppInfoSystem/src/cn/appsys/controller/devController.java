@@ -33,8 +33,6 @@ public class devController {
 		return "devlogin";
 	}
 	
-	
-
 	//登陆处理页面
 	@RequestMapping(value="/dologin.html", method=RequestMethod.POST)
 	public String login(@Param("devCode")String devCode, @Param("devPassword")String devPassword,HttpServletRequest request,HttpSession session){
