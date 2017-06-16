@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.appsys.pojo.app_category;
 import cn.appsys.pojo.app_info;
+import cn.appsys.pojo.app_version;
 import cn.appsys.pojo.data_dictionary;
 import cn.appsys.pojo.pages;
+import cn.appsys.service.appversionService;
 import cn.appsys.service.backendinfoService;
 import cn.appsys.service.categoryService;
 import cn.appsys.service.data_dictService;
@@ -27,6 +30,11 @@ import com.alibaba.fastjson.JSONArray;
 @RequestMapping(value = "/backend")
 @Controller
 public class backendinfoController {
+	
+	@Autowired
+	backendinfoService backendinfoservice;
+	@Autowired
+	appversionService appversionservice;
 	
 	ApplicationContext context = new ClassPathXmlApplicationContext(
 			"applicationContext-mybatis.xml");
@@ -177,5 +185,30 @@ public class backendinfoController {
 
 	}
 
+	//APP审核
+	@RequestMapping(value="/check.html")
+	public String Apshenhe(@RequestParam int aid,@RequestParam int vid,HttpServletRequest request){
+		//App基础信息
+		List<app_info> list=backendinfoservice.findSelectAppCheck(aid, vid);
+		request.setAttribute("appInfo", list.get(0));
+		//App版本信息
+		List<app_version> versionlist=appversionservice.findSelectVersionInfo(aid, vid);
+		request.setAttribute("appVersion", versionlist.get(0));
+		return "/backend/appcheck";
+	}
+	@RequestMapping(value="/checksave.html")
+	public String appCheck(@RequestParam String status,@RequestParam String id,HttpServletRequest request){
+		System.out.println("+++++++++++"+status);
+		System.out.println("-----------"+id);
+		//App审核通过、未通过审核
+		int objstatus=backendinfoservice.findUpdataStatus(Integer.parseInt(status), Integer.parseInt(id));
+		System.out.println("******"+objstatus);
+		if(objstatus==1){
+			return "redirect:/backend/applist.html";
+		}else{
+			return "/backend/appcheck";
+		}
+		
+	}
 
 }

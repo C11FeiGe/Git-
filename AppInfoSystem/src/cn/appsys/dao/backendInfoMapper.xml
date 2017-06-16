@@ -4,7 +4,8 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.appsys.dao.backendInfoMapper">
 		<select id="getappuserinfo"  parameterType="map" resultType="app_info">
-	SELECT 	app_info.id,softwareName,APKName,softwareSize,b1.valueName as flatformName ,categoryLevel1,a1.categoryName as categoryLevel1Name,categoryLevel2,a2.categoryName as categoryLevel2Name,categoryLevel3,a3.categoryName as categoryLevel3Name,status,b2.valueName as statusName,downloads,versionNo FROM app_info 
+	SELECT 	app_info.id,softwareName,APKName,softwareSize,b1.valueName as flatformName ,categoryLevel1,a1.categoryName as categoryLevel1Name,categoryLevel2,a2.categoryName as categoryLevel2Name,categoryLevel3,a3.categoryName as categoryLevel3Name,status,b2.valueName as statusName,downloads,versionNo,versionId
+	FROM app_info 
 			INNER JOIN data_dictionary AS b1 ON b1.valueId=app_info.flatformId
 			INNER JOIN data_dictionary AS b2 ON b2.valueId=app_info.status
 			
@@ -68,4 +69,27 @@
 		</if>
 	</select>
 
+	<!-- App审核 -->
+	<select id="getSelectAppCheck" resultType="app_info">
+		SELECT app_info.id,softwareName,APKName,supportROM,interfaceLanguage,softwareSize,
+		downloads,valueName as flatformName,app1.categoryName as categoryLevel1Name,app2.categoryName as categoryLevel2Name,
+		app3.categoryName as categoryLevel3Name,valueName as statusName,appInfo
+		FROM app_info
+		INNER JOIN data_dictionary ON app_info.flatformId=data_dictionary.valueId AND typeCode='APP_STATUS'
+		INNER JOIN app_category AS app1 ON app1.id=app_info.categoryLevel1
+		INNER JOIN app_category AS app2 ON app2.id=app_info.categoryLevel2	
+		INNER JOIN app_category AS app3 ON app3.id=app_info.categoryLevel3
+		<where>
+			<if test="aid!=0"> and app_info.id=#{aid}</if>
+			<if test="vid!=0"> and versionId=#{vid}</if>
+		</where>
+	</select>
+	<!-- 修改状态 -->
+	<update id="getUpdataStatus" parameterType="int">
+		update app_info
+		<set>status=#{status}</set>
+		<where>
+			<if test="id!=0">id=#{id}</if>
+		</where>
+	</update>
 </mapper>
