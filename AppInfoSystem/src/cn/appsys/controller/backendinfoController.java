@@ -129,8 +129,9 @@ public class backendinfoController {
 		map.put("pageSize", Constants.PAGE_SIZE);
 
 		List<app_info> lists = backendservice.getappuserinfo(map);
-		System.out.println(lists.get(0).getSoftwareName());
+		if(lists.size()!=0){
 		request.setAttribute("appInfoList", lists);
+		}
 
 		// APP状态
 		data_dictService dictservice = (data_dictService) context
@@ -182,7 +183,6 @@ public class backendinfoController {
 		// 三级分类
 
 		List<app_category> objs3 = categoryservic.getjibie(pid);
-		System.out.println(JSONArray.toJSONString(objs3));
 		return JSONArray.toJSONString(objs3);
 
 	}
@@ -195,14 +195,17 @@ public class backendinfoController {
 		request.setAttribute("appInfo", list.get(0));
 		//App版本信息
 		List<app_version> versionlist=appversionservice.findSelectVersionInfo(aid, vid);
-		request.setAttribute("appVersion", versionlist.get(0));
+		if(versionlist.size()!=0){
+			System.out.println("*****************"+versionlist.get(0));
+			request.setAttribute("appVersion", versionlist.get(0));
+			
+		}
 		return "/backend/appcheck";
 	}
 	@RequestMapping(value="/checksave.html")
 	public String appCheck(@RequestParam String status,@RequestParam String id,HttpServletRequest request){
 		//App审核通过、未通过审核
 		int objstatus=backendinfoservice.findUpdataStatus(Integer.parseInt(status), Integer.parseInt(id));
-		System.out.println("******"+objstatus);
 		if(objstatus==1){
 			return "redirect:/backend/applist.html";
 		}else{
