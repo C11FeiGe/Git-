@@ -50,7 +50,7 @@ public class backendController {
 	@RequestMapping(value="/logout.html")
 	public String logout(HttpSession session){
 		session.invalidate(); //清除Session
-		return "zhuye";
+		return "redirect:/";
 	}
 	
 }

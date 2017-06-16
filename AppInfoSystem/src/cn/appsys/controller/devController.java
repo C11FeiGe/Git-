@@ -48,9 +48,9 @@ public class devController {
 		}
 	}
 	//注销
-	@RequestMapping(value="/logout.html")
+	@RequestMapping(value="/logout")
 	public String logout(HttpSession session){
 		session.invalidate(); //清除Session
-		return "zhuye";
+		return "redirect:/";
 	}
 }
