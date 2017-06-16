@@ -14,8 +14,9 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-				<form method="post" action="/AppInfoSystem/backend/applist.html">
+				<form method="post" action="${pageContext.request.contextPath}/backend/applist.html">
 					<input type="hidden" name="pageIndex" value="1" />
+					<input type="hidden" id="path" value="${pageContext.request.contextPath}" /><!-- 隐藏域 请求根路径-->
 			    <ul>
 					<li>
 						<div class="form-group">

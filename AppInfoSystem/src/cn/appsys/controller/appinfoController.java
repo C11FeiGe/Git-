@@ -1,4 +1,4 @@
-package cn.appsys.controller;
+		package cn.appsys.controller;
 
 import java.io.File;
 import java.util.Date;
@@ -246,6 +246,7 @@ public class appinfoController {
 
 	}
 
+
 	// 判断是否存在
 	@RequestMapping(value = "/apkexist")
 	@ResponseBody
@@ -280,6 +281,7 @@ public class appinfoController {
 	 * @param request
 	 * @return
 	 */
+
 
 	// 查询列表
 	@RequestMapping(value = "/appinfolist.html")

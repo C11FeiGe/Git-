@@ -25,4 +25,14 @@ public class backendinfoServiceImpl implements backendinfoService {
 		return backendInfomapper.getCount(appuserinfo);
 	}
 
+	@Override
+	public List<app_info> findSelectAppCheck(int aid, int vid) {
+		return backendInfomapper.getSelectAppCheck(aid, vid);
+	}
+
+	@Override
+	public int findUpdataStatus(int status, int id) {
+		return backendInfomapper.getUpdataStatus(status, id);
+	}
+
 }

@@ -12,5 +12,11 @@ public interface backendinfoService {
 		
 		//查询记录数
 		public int getCount(app_info appuserinfo);
+		
+		//App审核
+		public List<app_info> findSelectAppCheck(int aid,int vid);
+		
+		//App审核通过、未通过审核
+		public int findUpdataStatus(int status,int id);
 	
 }
