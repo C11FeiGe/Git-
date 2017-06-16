@@ -23,5 +23,23 @@ public interface appinfoService {
 	
 	//修改之前的内容
 	public app_info selectedit(int id);
-
+	
+	
+	//修改版本信息
+	public boolean editversion(app_info appinfo);
+	
+	
+	//查看APP基础信息
+	public app_info selectinfoById(int id);
+	
+	
+	//删除
+	public boolean deleteByid(int id);
+	
+	
+	//上架
+	public boolean updateshang(int id);
+	
+	//下架
+	public boolean updatexia(int id);
 }

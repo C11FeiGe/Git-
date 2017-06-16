@@ -4,11 +4,11 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.appsys.dao.appinfodao">
 	<select id="getappinfo" parameterType="map" resultType="app_info">
-		SELECT app_info.id,softwareName,APKName,softwareSize,b1.valueName as
-		flatformName ,categoryLevel1,a1.categoryName as
-		categoryLevel1Name,categoryLevel2,a2.categoryName as
-		categoryLevel2Name,categoryLevel3,a3.categoryName as
-		categoryLevel3Name,status,b2.valueName as
+		SELECT app_info.id,softwareName,APKName,versionId,softwareSize,b1.valueName AS
+		flatformName ,categoryLevel1,a1.categoryName AS
+		categoryLevel1Name,categoryLevel2,a2.categoryName AS
+		categoryLevel2Name,categoryLevel3,a3.categoryName AS
+		categoryLevel3Name,STATUS,b2.valueName AS
 		statusName,downloads,versionNo FROM app_info
 		INNER JOIN data_dictionary
 		AS b1 ON b1.valueId=app_info.flatformId
@@ -95,7 +95,7 @@
 
 	<!-- 修改 -->
 	<update id="editappinfo" parameterType="app_info">
-		UPDATE app_info 
+		UPDATE app_info
 		<set>
 			<if test="softwareName!=null and softwareName!=''">
 				softwareName=#{softwareName},
@@ -114,6 +114,10 @@
 			</if>
 			<if test="downloads!=null and downloads!=''">
 				downloads=#{downloads},
+			</if>
+
+			<if test="modifyBy!=null and modifyBy!=''">
+				modifyBy=#{modifyBy},modifyDate=#{modifyDate},
 			</if>
 			<if test="flatformId!=null and flatformId!=''">
 				flatformId=#{flatformId},
@@ -136,6 +140,7 @@
 			<if test="logoPicPath!=null and logoPicPath!=''">
 				logoPicPath=#{logoPicPath},
 			</if>
+
 		</set>
 		where id=#{id}
 	</update>
@@ -144,10 +149,10 @@
 	<!-- 增加 -->
 	<insert id="addinfolist" parameterType="app_info">
 		INSERT INTO
-		app_info(softwareName,APKName,supportROM,interfaceLanguage,softwareSize,downloads,flatformId,categoryLevel1,categoryLevel2,categoryLevel3,STATUS,appInfo,logoLocPath,logoPicPath,versionId)
+		app_info(softwareName,APKName,supportROM,interfaceLanguage,softwareSize,downloads,createdBy,creationDate,flatformId,categoryLevel1,categoryLevel2,categoryLevel3,STATUS,appInfo,logoLocPath,logoPicPath,versionId)
 		VALUES ( #{softwareName},
 		#{APKName},#{supportROM},#{interfaceLanguage},
-		#{softwareSize},#{downloads},#{flatformId},#{categoryLevel1},
+		#{softwareSize},#{downloads},#{createdBy},#{creationDate},#{flatformId},#{categoryLevel1},
 		#{categoryLevel2},#{categoryLevel3},#{STATUS},#{appInfo},#{logoPicPath},#{logoLocPath},#{versionId})
 	</insert>
 
@@ -157,5 +162,55 @@
 		softwareName,APKName,supportROM,interfaceLanguage,softwareSize,downloads,flatformId,categoryLevel1,categoryLevel2,categoryLevel3,STATUS,appInfo,logoLocPath,logoPicPath,versionId
 		from app_info where id=#{id}
 	</select>
+
+
+	<!-- 修改最新版本信息 -->
+	<update id="editversion" parameterType="app_info">
+		UPDATE app_info SET
+		modifyBy=#{modifyBy},modifyDate=#{modifyDate},versionId=#{versionId}
+		WHERE id=#{id}
+	
+	</update>
+
+	<!-- 查看APP基础信息 -->
+	<select id="selectinfoById" resultType="app_info">
+		SELECT app_info.id,softwareName,APKName,versionId,softwareSize,b1.valueName AS
+		flatformName ,supportROM,interfaceLanguage,appInfo,categoryLevel1,a1.categoryName AS
+		categoryLevel1Name,categoryLevel2,a2.categoryName AS
+		categoryLevel2Name,categoryLevel3,a3.categoryName AS
+		categoryLevel3Name,STATUS,b2.valueName AS
+		statusName,downloads,versionNo FROM app_info
+		INNER JOIN data_dictionary
+		AS b1 ON b1.valueId=app_info.flatformId
+		INNER JOIN data_dictionary AS
+		b2 ON b2.valueId=app_info.status
+
+		INNER JOIN app_category AS a1 ON a1.id
+		=app_info.categoryLevel1
+		INNER JOIN app_category AS a2 ON a2.id
+		=app_info.categoryLevel2
+		INNER JOIN app_category AS a3 ON a3.id
+		=app_info.categoryLevel3
+
+		INNER JOIN app_version ON
+		app_version.id=app_info.versionId
+		WHERE b1.typeName='所属平台' AND
+		b2.typeName='APP状态'
+		AND app_info.id=#{id}
+	</select>
+	<!-- 上架 -->
+	<update id="updateshang" parameterType="int">
+		UPDATE app_info SET STATUS=4 WHERE id=#{id}
+	</update>
+	<!-- 下架 -->
+	<update id="updatexia" parameterType="int">
+		UPDATE app_info SET STATUS=5 WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteByid" parameterType="int">
+		DELETE FROM app_info WHERE id=#{id}
+	</delete>
+	
+	
 
 </mapper>

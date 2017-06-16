@@ -104,7 +104,8 @@ $(document).on("click",".saleSwichOpen,.saleSwichClose",function(){
 var saleSwitchAjax = function(appId,obj){
 	$.ajax({
 		type:"PUT",
-		url:appId+"/sale.json",
+		
+		url:appId+"/"+obj.attr("saleSwitch")+"/sale",
 		dataType:"json",
 		success:function(data){
 			/*
@@ -146,9 +147,9 @@ var saleSwitchAjax = function(appId,obj){
 					}
 				}else if(data.resultMsg === "failed"){//删除失败
 					if("open" === obj.attr("saleSwitch")){
-						alert("恭喜您，【"+obj.attr("appsoftwarename")+"】的【上架】操作失败");
+						alert("sorry，【"+obj.attr("appsoftwarename")+"】的【上架】操作失败");
 					}else if("close" === obj.attr("saleSwitch")){
-						alert("恭喜您，【"+obj.attr("appsoftwarename")+"】的【下架】操作失败");
+						alert("sorry，【"+obj.attr("appsoftwarename")+"】的【下架】操作失败");
 					}
 				}
 			}else{
@@ -173,7 +174,7 @@ var saleSwitchAjax = function(appId,obj){
 
 $(".viewApp").on("click",function(){
 	var obj = $(this);
-	window.location.href="appview/"+ obj.attr("appinfoid");
+	window.location.href="appview/?id="+ obj.attr("appinfoid");
 });
 
 $(".deleteApp").on("click",function(){
@@ -181,7 +182,7 @@ $(".deleteApp").on("click",function(){
 	if(confirm("你确定要删除APP应用【"+obj.attr("appsoftwarename")+"】及其所有的版本吗？")){
 		$.ajax({
 			type:"GET",
-			url:"delapp.json",
+			url:"delapp",
 			data:{id:obj.attr("appinfoid")},
 			dataType:"json",
 			success:function(data){

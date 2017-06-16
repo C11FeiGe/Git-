@@ -12,19 +12,24 @@ public class app_version {
 	private String downloadLink;// 下载链接
 	private double versionSize;//版本大小
 	private Integer createdBy; //创建者 backend_user表的用户id
-	private Date creationTime; //创建时间
+	private Date creationDate; //创建时间
 	private Integer modifyBy;//更新者 backend_user表的用户id
 	private Date modifyDate;//最新更新时间 
 	private String apkLocPath;// apk文件的服务器存储路径
 	private String apkFileName;//上传的apk文件名称
 	
+	private String appName;
+	private String publishStatusName;
+	
 	public app_version(){}
+	
+
 	
 	public app_version(Integer id, Integer appId, String versionNo,
 			String versionInfo, Integer publishStatus, String downloadLink,
-			double versionSize, Integer createdBy, Date creationTime,
+			double versionSize, Integer createdBy, Date creationDate,
 			Integer modifyBy, Date modifyDate, String apkLocPath,
-			String apkFileName) {
+			String apkFileName, String appName, String publishStatusName) {
 		super();
 		this.id = id;
 		this.appId = appId;
@@ -34,12 +39,33 @@ public class app_version {
 		this.downloadLink = downloadLink;
 		this.versionSize = versionSize;
 		this.createdBy = createdBy;
-		this.creationTime = creationTime;
+		this.creationDate = creationDate;
 		this.modifyBy = modifyBy;
 		this.modifyDate = modifyDate;
 		this.apkLocPath = apkLocPath;
 		this.apkFileName = apkFileName;
+		this.appName = appName;
+		this.publishStatusName = publishStatusName;
 	}
+
+
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getPublishStatusName() {
+		return publishStatusName;
+	}
+
+	public void setPublishStatusName(String publishStatusName) {
+		this.publishStatusName = publishStatusName;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -88,12 +114,15 @@ public class app_version {
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
-	public Date getCreationTime() {
-		return creationTime;
+
+	public Date getCreationDate() {
+		return creationDate;
 	}
-	public void setCreationTime(Date creationTime) {
-		this.creationTime = creationTime;
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
+
 	public Integer getModifyBy() {
 		return modifyBy;
 	}

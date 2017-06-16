@@ -27,4 +27,22 @@ public interface appinfodao {
 	
 	//显示修改之前的内容
 	public app_info selectedit(@Param("id") int id);
+	
+	
+	//修改版本信息
+	public int editversion(app_info appinfo);
+	
+	
+	//查看APP基础信息
+	public app_info selectinfoById(@Param("id") int id);
+	
+	//删除
+	public int deleteByid(@Param("id") int id);
+
+	//上架
+	public int updateshang(@Param("id") int id);
+	
+	//下架
+	public int updatexia(@Param("id") int id);
+	
 }

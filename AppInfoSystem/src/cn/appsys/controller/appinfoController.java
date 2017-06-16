@@ -1,11 +1,13 @@
 package cn.appsys.controller;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.FilenameUtils;
@@ -14,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +28,7 @@ import com.alibaba.fastjson.JSONArray;
 import cn.appsys.pojo.app_category;
 import cn.appsys.pojo.app_info;
 import cn.appsys.pojo.data_dictionary;
+import cn.appsys.pojo.dev_user;
 import cn.appsys.pojo.pages;
 import cn.appsys.service.appinfoService;
 import cn.appsys.service.categoryService;
@@ -41,6 +45,36 @@ public class appinfoController {
 			"applicationContext-mybatis.xml");
 	
 	
+	//上下架
+	@RequestMapping(value="{appId}/{saleSwitch}/sale")
+	@ResponseBody
+	public Object updown(@PathVariable String appId,@PathVariable String saleSwitch){
+		appinfoService appservice = (appinfoService) context
+				.getBean("AppinfoService");
+		HashMap<String, String> map=new HashMap<String, String>();
+		if(saleSwitch.equals("open")){
+			if(appservice.updateshang(Integer.parseInt(appId))){
+				map.put("errorCode", "0");
+				map.put("resultMsg", "success");
+			}else{
+				map.put("resultMsg", "failed");
+			}
+		}else if(saleSwitch.equals("close")){
+			if(appservice.updatexia(Integer.parseInt(appId))){
+				map.put("errorCode", "0");
+				map.put("resultMsg", "success");
+			}else{
+				map.put("resultMsg", "failed");
+			}
+		}
+		
+		
+		return JSONArray.toJSONString(map);
+		
+	}
+	
+	
+
 	//修改之前的内容
 	@RequestMapping(value="/appinfomodify")
 	public String editapplist(Integer id,Model model,HttpServletRequest request){
@@ -55,12 +89,15 @@ public class appinfoController {
 		return "/developer/appinfomodify";
 	}
 	
+	//点击确定修改
 	@RequestMapping(value="/appinfomodifysave")
-	public String editapplist(@Valid app_info appinfo,@RequestParam("pid") String pid){
+	public String editapplist(@Valid app_info appinfo,@RequestParam("pid") String pid,HttpSession session){
 		System.out.println(pid);
 		appinfoService appservice = (appinfoService) context
 				.getBean("AppinfoService");
 		appinfo.setId(Integer.parseInt(pid));
+		appinfo.setModifyBy(((dev_user)session.getAttribute(Constants.DEVUSER_SESSION)).getId());
+		appinfo.setModifyDate(new Date());
 		if(appservice.editappinfo(appinfo)){
 			return "redirect:/developer/appinfolist.html";
 		}else{
@@ -120,9 +157,9 @@ public class appinfoController {
 			@RequestParam(required = false) String categoryLevel3,
 			@RequestParam(required = false) String status,
 			@RequestParam(required = false) String appInfo,
+			HttpSession session,
 			@RequestParam(value ="a_logoPicPath", required = false) MultipartFile attach,
 			HttpServletRequest request) {
-		System.out.println("进啦********************");
 		
 		String idPicPath = null;
 		//判断文件是否为空
@@ -196,6 +233,8 @@ public class appinfoController {
 		appinfo.setAppInfo(appInfo);
 		appinfo.setLogoPicPath(idPicPath);
 		appinfo.setVersionId(38);
+		appinfo.setCreatedBy(((dev_user)session.getAttribute(Constants.DEVUSER_SESSION)).getId());
+		appinfo.setCreationDate(new Date());
 		appinfoService appservice = (appinfoService) context
 				.getBean("AppinfoService");
 		boolean flag = appservice.addinfolist(appinfo);

@@ -20,7 +20,7 @@ public class app_info {
 	private Integer categoryLevel3; //所属三级分类
 	private Integer downloads; //下载量
 	private Integer createdBy; //创建者 backend_user表的用户id
-	private Date creationTime; //创建时间
+	private Date creationDate; //创建时间
 	private Integer modifyBy;//更新者 backend_user表的用户id
 	private Date modifyDate;//最新更新时间
 	private Integer categoryLevel1; //所属一级分类
@@ -97,14 +97,18 @@ public class app_info {
 
 	public app_info(){}
 	
+
 	public app_info(Integer id, String softwareName, String aPKName,
 			String supportROM, String interfaceLanguage, double softwareSize,
 			Date updateDate, Integer devId, String appInfo, Integer sTATUS,
 			Date onSaleDate, Date offSaleDate, Integer flatformId,
 			Integer categoryLevel3, Integer downloads, Integer createdBy,
-			Date creationTime, Integer modifyBy, Date modifyDate,
+			Date creationDate, Integer modifyBy, Date modifyDate,
 			Integer categoryLevel1, Integer categoryLevel2, String logoPicPath,
-			String logoLocPath, Integer versionId) {
+			String logoLocPath, Integer versionId, String statusName,
+			String categoryLevel1Name, String categoryLevel2Name,
+			String categoryLevel3Name, String flatformName, String versionNo,
+			String status2) {
 		super();
 		this.id = id;
 		this.softwareName = softwareName;
@@ -122,7 +126,7 @@ public class app_info {
 		this.categoryLevel3 = categoryLevel3;
 		this.downloads = downloads;
 		this.createdBy = createdBy;
-		this.creationTime = creationTime;
+		this.creationDate = creationDate;
 		this.modifyBy = modifyBy;
 		this.modifyDate = modifyDate;
 		this.categoryLevel1 = categoryLevel1;
@@ -130,7 +134,15 @@ public class app_info {
 		this.logoPicPath = logoPicPath;
 		this.logoLocPath = logoLocPath;
 		this.versionId = versionId;
+		this.statusName = statusName;
+		this.categoryLevel1Name = categoryLevel1Name;
+		this.categoryLevel2Name = categoryLevel2Name;
+		this.categoryLevel3Name = categoryLevel3Name;
+		this.flatformName = flatformName;
+		this.versionNo = versionNo;
+		status = status2;
 	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -227,12 +239,15 @@ public class app_info {
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
-	public Date getCreationTime() {
-		return creationTime;
+	
+	public Date getCreationDate() {
+		return creationDate;
 	}
-	public void setCreationTime(Date creationTime) {
-		this.creationTime = creationTime;
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
+
 	public Integer getModifyBy() {
 		return modifyBy;
 	}
