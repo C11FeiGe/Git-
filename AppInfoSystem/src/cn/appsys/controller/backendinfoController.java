@@ -19,6 +19,7 @@ import cn.appsys.pojo.app_info;
 import cn.appsys.pojo.app_version;
 import cn.appsys.pojo.data_dictionary;
 import cn.appsys.pojo.pages;
+import cn.appsys.service.appinfoService;
 import cn.appsys.service.appversionService;
 import cn.appsys.service.backendinfoService;
 import cn.appsys.service.categoryService;
@@ -66,6 +67,7 @@ public class backendinfoController {
 		
 		return  JSONArray.toJSONString(objs1);
 	}
+
 	
 	// 查询列表
 	@RequestMapping(value = "/applist.html")
@@ -198,8 +200,6 @@ public class backendinfoController {
 	}
 	@RequestMapping(value="/checksave.html")
 	public String appCheck(@RequestParam String status,@RequestParam String id,HttpServletRequest request){
-		System.out.println("+++++++++++"+status);
-		System.out.println("-----------"+id);
 		//App审核通过、未通过审核
 		int objstatus=backendinfoservice.findUpdataStatus(Integer.parseInt(status), Integer.parseInt(id));
 		System.out.println("******"+objstatus);
