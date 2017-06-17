@@ -38,7 +38,7 @@
 	</select>
 	
 	<update id="editVersion" parameterType="app_version">
-		UPDATE app_version SET versionSize=#{versionSize},versionInfo=#{versionInfo} WHERE id=#{id}
+		UPDATE app_version SET versionSize=#{versionSize},versionInfo=#{versionInfo},apkFileName=#{apkFileName} WHERE id=#{id}
 	</update>
 
 </mapper>

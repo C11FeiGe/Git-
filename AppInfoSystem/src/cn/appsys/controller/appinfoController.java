@@ -400,5 +400,15 @@ public class appinfoController {
 		return JSONArray.toJSONString(objs3);
 
 	}
+	
+	
+	@RequestMapping(value="/delfile")
+	@ResponseBody
+	public Object updateapk(){
+		HashMap<String, String> map=new HashMap<String, String>();
+		map.put("result", "success");
+		return JSONArray.toJSONString(map);
+		
+	}
 
 }

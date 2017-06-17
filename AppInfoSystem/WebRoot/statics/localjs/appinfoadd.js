@@ -94,7 +94,7 @@ $(function(){
 	});
 	
 	$("#back").on("click",function(){
-		window.location.href = "list";
+		window.location.href = "/AppInfoSystem/developer/appinfolist.html";
 	});
 	
 	$("#APKName").bind("blur",function(){

@@ -176,9 +176,7 @@ public class versionController {
 			String path = request.getSession().getServletContext()
 					.getRealPath("statics" + File.separator + "uploadfiles");
 			oldFileName = attach.getOriginalFilename();// 原文件名
-			System.out.println(oldFileName);
 			String prefix = FilenameUtils.getExtension(oldFileName);// 原文件后缀
-			System.out.println(prefix + "******************************");
 			int filesize = 500000;
 			if (attach.getSize() > filesize) {// 上传大小不得超过 500k
 				request.setAttribute("uploadFileError", " * 上传大小不得超过 500k");
@@ -206,6 +204,7 @@ public class versionController {
 		}
 
 		appversion.setApkLocPath(apkLocPath);
+		appversion.setApkFileName(oldFileName);
 		if (versionservice.editVersion(appversion)) {
 			return "redirect:/developer/appinfolist.html";
 		} else {
